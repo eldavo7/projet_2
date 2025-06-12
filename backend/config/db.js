@@ -8,12 +8,8 @@ const connection = mysql.createConnection({
   database: 'projet_2'      // ta base dans phpMyAdmin
 });
 
-
 connection.connect(err => {
-  if (err) {
-    console.log('Erreur de connexion MySQL :', err);
-    return;  // Arrêter la suite si erreur
-  }
+  if (err) throw err;
   console.log('MySQL connecté !');
 });
 

@@ -1,36 +1,31 @@
-// Conditions.jsx
-export default function Conditions() {
+// frontend/src/Conditions.jsx
+
+import React from 'react';
+
+// NOUVEAU: Accepte la prop 'onBackToLogin'
+function Conditions({ onBackToLogin }) {
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Conditions Générales d’Utilisation</h1>
-      <p>Les présentes conditions s’appliquent à tous les utilisateurs...</p>
-      <p>
-# Conditions Générales d’Utilisation (CGU)
+    <div className="conditions-container">
+      <h2>Conditions Générales d'Utilisation</h2>
+      <p>Bienvenue sur notre application. En utilisant nos services, vous acceptez les présentes conditions générales d'utilisation...</p>
+      <p>Voici les détails de nos CGU :</p>
+      <ul>
+        <li>Article 1: Objet des Conditions Générales d'Utilisation</li>
+        <li>Article 2: Accès au service</li>
+        <li>Article 3: Propriété intellectuelle</li>
+        <li>Article 4: Données personnelles</li>
+        <li>Article 5: Limitation de responsabilité</li>
+        <li>Article 6: Modifications des CGU</li>
+        <li>Article 7: Droit applicable et juridiction compétente</li>
+      </ul>
+      <p>Date de la dernière mise à jour : 12 juin 2025</p>
 
-## 1. Objet
-Les présentes conditions générales d'utilisation ont pour objet de définir les modalités et conditions dans lesquelles les utilisateurs peuvent accéder et utiliser l'application.
-
-## 2. Acceptation
-En accédant et en utilisant l'application, l'utilisateur accepte sans réserve les présentes CGU.
-
-## 3. Utilisation du service
-L'utilisateur s'engage à utiliser le service dans le respect de la législation en vigueur et à ne pas porter atteinte aux droits des tiers.
-
-## 4. Compte utilisateur
-Chaque utilisateur est responsable de la confidentialité de son identifiant et mot de passe.
-
-## 5. Données personnelles
-Les données collectées sont utilisées uniquement pour le fonctionnement de l'application et ne sont pas partagées à des tiers sans consentement.
-
-## 6. Responsabilité
-L'éditeur ne pourra être tenu responsable en cas de dysfonctionnement du service ou de perte de données.
-
-## 7. Modifications
-L'application se réserve le droit de modifier les présentes CGU à tout moment.
-
-## 8. Contact
-Pour toute question concernant ces CGU, vous pouvez contacter l'équipe via l'application ou à l'adresse suivante : support@example.com
-      </p>
+      {/* NOUVEAU: Bouton pour revenir à la page de connexion */}
+      <button onClick={onBackToLogin} className="back-button">
+        Retour à la connexion
+      </button>
     </div>
   );
 }
+
+export default Conditions;
