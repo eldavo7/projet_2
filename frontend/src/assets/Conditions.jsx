@@ -1,8 +1,5 @@
-// frontend/src/Conditions.jsx
-
 import React from 'react';
 
-// NOUVEAU: Accepte la prop 'onBackToLogin'
 function Conditions({ onBackToLogin }) {
   return (
     <div className="conditions-container">
@@ -20,7 +17,6 @@ function Conditions({ onBackToLogin }) {
       </ul>
       <p>Date de la dernière mise à jour : 12 juin 2025</p>
 
-      {/* NOUVEAU: Bouton pour revenir à la page de connexion */}
       <button onClick={onBackToLogin} className="back-button">
         Retour à la connexion
       </button>

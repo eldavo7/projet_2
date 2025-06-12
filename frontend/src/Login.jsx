@@ -59,11 +59,10 @@ export default function Login({ onLogin, onViewCgu }) {
             onChange={(e) => setAcceptCgu(e.target.checked)}
           />
           <label htmlFor="acceptCgu">
-            J'ai lu et j'accepte les 
-            <a href="./assets/Conditions.jsx" onClick={(e) => {
+            <a href="./assets/Conditions.jsx" className='cgu' target="_blank" onClick={(e) => {
               e.preventDefault(); // Empêche le comportement par défaut du lien (rechargement de la page)
               onViewCgu(); // Appelle la fonction passée par App.jsx pour changer l'écran
-            }}> Conditions Générales d'Utilisation</a>
+            }}> J'ai lu et j'accepte les Conditions Générales d'Utilisation</a>
           </label>
         </div>
 

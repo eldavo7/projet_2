@@ -1,5 +1,3 @@
-// frontend/src/App.jsx
-
 import { useState } from 'react';
 import Login from './Login';
 import HomeUser from './HomeUser';

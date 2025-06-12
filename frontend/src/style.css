@@ -113,3 +113,21 @@ body {
     font-size: 1.5rem;
   }
 }
+
+input#acceptCgu {
+  margin-right: 8px;
+  vertical-align: middle;
+  text-decoration: none;
+}
+label a.cgu {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form-group.cgu-checkbox label {
+  cursor: pointer; /* <--- C'EST LA PROPRIÉTÉ QUI AJOUTE L'EFFET POINTEUR AU CURSEUR */
+  font-size: 0.95em;
+  color: #555;
+  line-height: 1.4; /* Améliore la lisibilité des lignes de texte */
+}
