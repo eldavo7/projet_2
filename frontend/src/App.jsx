@@ -1,53 +1,66 @@
-import { useState } from 'react';
+// frontend/src/App.jsx
+
+import React, { useState, useEffect } from 'react';
+// Importations de React Router : PAS de BrowserRouter ici, car il est dans main.jsx
+import { Routes, Route, useNavigate } from 'react-router-dom';
+
 import Login from './Login';
-import HomeUser from './HomeUser';
+import HomeUser from './HomeUser'; // Vérifiez la faute de frappe ici : 'IomeUser' -> 'HomeUser'
 import AdminDashboard from './AdminDashboard';
-import Conditions from './assets/Conditions';
+// Assurez-vous que le chemin est correct pour Conditions.jsx
+import Conditions from './assets/Conditions'; 
+
+// Composant Wrapper pour les routes authentifiées et protégées par rôle
+function PrivateRoute({ children, userRole, requiredRole }) {
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    // Si l'utilisateur n'est pas connecté du tout (rôle est null)
+    if (!userRole) {
+      navigate('/', { replace: true }); // Redirige vers la page de connexion
+    } 
+    // Si l'utilisateur est connecté mais n'a pas le rôle requis pour cette route
+    else if (requiredRole && userRole !== requiredRole) {
+      // Redirige vers la page d'accueil ou une page d'accès refusé
+      navigate('/home', { replace: true }); 
+    }
+  }, [userRole, requiredRole, navigate]); 
+
+  return (userRole && (!requiredRole || userRole === requiredRole)) ? children : null;
+}
 
 export default function App() {
-  const [role, setRole] = useState(null);
-  // NOUVEAU: État pour gérer quelle vue afficher quand l'utilisateur n'est pas connecté
-  const [authScreen, setAuthScreen] = useState('login'); 
+  const [role, setRole] = useState(null); 
 
-  // Fonction pour gérer la connexion réussie et réinitialiser la vue
   const handleLoginSuccess = (userRole) => {
-    setRole(userRole);
-    // Après connexion, on s'assure que la vue est 'login' au cas où l'utilisateur
-    // serait sur la page des conditions avant de se connecter.
-    setAuthScreen('login'); 
+    setRole(userRole); 
   };
 
-  // NOUVEAU: Fonction pour passer à la vue des Conditions Générales d'Utilisation
-  const handleViewCgu = () => {
-    setAuthScreen('conditions');
-  };
+  return (
+    // Pas de <BrowserRouter> ici, car il est dans main.jsx
+    <Routes>
+      <Route path="/" element={<Login onLogin={handleLoginSuccess} />} />
+      <Route path="/conditions" element={<Conditions />} />
 
-  // NOUVEAU: Fonction pour revenir à la vue de connexion
-  const handleBackToLogin = () => {
-    setAuthScreen('login');
-  };
+      <Route 
+        path="/home" 
+        element={
+          <PrivateRoute userRole={role} requiredRole="user">
+            <HomeUser />
+          </PrivateRoute>
+        } 
+      />
 
-  if (!role) {
-    // Si l'utilisateur n'est pas connecté, on décide quelle vue afficher
-    if (authScreen === 'login') {
-      // On passe une nouvelle prop 'onViewCgu' au composant Login
-      return <Login onLogin={handleLoginSuccess} onViewCgu={handleViewCgu} />;
-    } else if (authScreen === 'conditions') {
-      // Si la vue est 'conditions', on affiche le composant Conditions
-      // et on lui passe une prop 'onBackToLogin' pour revenir à la connexion
-      return <Conditions onBackToLogin={handleBackToLogin} />;
-    }
-  }
+      <Route 
+        path="/admin" 
+        element={
+          <PrivateRoute userRole={role} requiredRole="admin">
+            <AdminDashboard />
+          </PrivateRoute>
+        } 
+      />
 
-  // Si un rôle est défini, affiche le tableau de bord approprié
-  if (role === 'admin') {
-    return <AdminDashboard />;
-  }
-
-  if (role === 'user') {
-    return <HomeUser />;
-  }
-
-  // Cas de secours pour un rôle inconnu
-  return <p>Rôle inconnu</p>;
+      <Route path="*" element={<p>Page non trouvée</p>} />
+    </Routes>
+  );
 }

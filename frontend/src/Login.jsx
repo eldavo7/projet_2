@@ -2,13 +2,17 @@
 
 import { useState } from 'react';
 import { login } from './api';
+import { useNavigate } from 'react-router-dom'; 
+// Avertissement: Supprimez l'importation de './style.css' ici.
+// Elle sera importée globalement dans main.jsx.
 
-// NOUVEAU: Ajoutez 'onViewCgu' aux props
-export default function Login({ onLogin, onViewCgu }) {
+export default function Login({ onLogin }) { 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [acceptCgu, setAcceptCgu] = useState(false); 
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +26,14 @@ export default function Login({ onLogin, onViewCgu }) {
     try {
       const data = await login(username, password);
       if (data.success) {
-        onLogin(data.role);
+        onLogin(data.role); 
+        if (data.role === 'admin') {
+          navigate('/admin');
+        } else if (data.role === 'user') {
+          navigate('/home');
+        } else {
+          navigate('/'); 
+        }
       } else {
         setError(data.message);
       }
@@ -59,10 +70,10 @@ export default function Login({ onLogin, onViewCgu }) {
             onChange={(e) => setAcceptCgu(e.target.checked)}
           />
           <label htmlFor="acceptCgu">
-            <a href="./assets/Conditions.jsx" className='cgu' target="_blank" onClick={(e) => {
-              e.preventDefault(); // Empêche le comportement par défaut du lien (rechargement de la page)
-              onViewCgu(); // Appelle la fonction passée par App.jsx pour changer l'écran
-            }}> J'ai lu et j'accepte les Conditions Générales d'Utilisation</a>
+            <a href="./assets/Conditions.jsx" className='cgu' target="_blank"onClick={(e) => {
+              e.preventDefault(); 
+              navigate('/conditions'); 
+            }}>J'ai lu et j'accepte les Conditions Générales d'Utilisation</a>
           </label>
         </div>
 

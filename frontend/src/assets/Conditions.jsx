@@ -1,6 +1,12 @@
-import React from 'react';
+// frontend/src/assets/Conditions.jsx
 
-function Conditions({ onBackToLogin }) {
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // NOUVEAU: Importation de useNavigate
+
+// NOUVEAU: Le composant n'a plus besoin de la prop onBackToLogin
+function Conditions() {
+  const navigate = useNavigate(); // NOUVEAU: Initialisation du hook de navigation
+
   return (
     <div className="conditions-container">
       <h2>Conditions Générales d'Utilisation</h2>
@@ -17,7 +23,8 @@ function Conditions({ onBackToLogin }) {
       </ul>
       <p>Date de la dernière mise à jour : 12 juin 2025</p>
 
-      <button onClick={onBackToLogin} className="back-button">
+      {/* MODIFICATION: Utilisation de onClick avec navigate pour revenir à la route principale */}
+      <button onClick={() => navigate('/')} className="back-button">
         Retour à la connexion
       </button>
     </div>

@@ -131,3 +131,7 @@ label a.cgu {
   color: #555;
   line-height: 1.4; /* Améliore la lisibilité des lignes de texte */
 }
+
+label a.cgu:hover {
+  color: #008000; /* Une nuance de bleu plus foncée au survol pour un feedback */
+}
