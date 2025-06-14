@@ -90,15 +90,15 @@ body {
 /* Boutons de soumission (Login, Register et Retour Conditions) */
 .login-form button,
 .register-form button,
-.conditions-container .back-button {
-  padding: 14px 28px; /* Plus grand */
-  font-size: 1.15em;
-  font-weight: 600;
-  color: var(--white);
+.conditions-container .back-button { /* Appliqué aussi au bouton retour */
   background-color: var(--primary-color);
+  color: white;
+  padding: 14px 28px; /* Plus grand */
   border: none;
   border-radius: var(--border-radius-small);
   cursor: pointer;
+  font-size: 1.15em;
+  font-weight: 600;
   transition: var(--transition-medium);
   width: 100%;
   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
@@ -151,10 +151,13 @@ body {
 .form-group.cgu-checkbox {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centrage horizontal */
+  justify-content: flex-start; /* Aligne les éléments au début (à gauche) */
   margin-top: 5px; /* Petit espace au-dessus */
   margin-bottom: 15px; /* Espace sous la checkbox */
-  flex-wrap: wrap; /* Permet au texte de passer à la ligne sur petits écrans */
+  flex-wrap: wrap; /* Permet au texte de passer à la ligne sur petits écrans (utile pour la réactivité) */
+  width: 100%; /* S'assurer qu'il prend toute la largeur du conteneur */
+  padding: 0 12px; /* Ajoute un padding horizontal pour aligner avec les inputs */
+  box-sizing: border-box; /* Inclure le padding dans la largeur */
 }
 
 .form-group.cgu-checkbox input[type="checkbox"] {
@@ -162,6 +165,8 @@ body {
   margin-right: 10px;
   transform: scale(1.15); /* Légèrement plus grande */
   accent-color: var(--primary-color); /* Couleur de la coche */
+  /* Assurez-vous qu'elle est bien alignée verticalement */
+  flex-shrink: 0; /* Empêche la checkbox de rétrécir */
 }
 
 .form-group.cgu-checkbox label {
@@ -170,6 +175,9 @@ body {
   text-align: left; /* Assure que le texte du label s'aligne bien */
   line-height: 1.4;
   cursor: pointer; /* Indique que le label est cliquable */
+  /* CORRECTION: Retire flex-grow pour que le label prenne juste la place nécessaire */
+  /* flex-grow: 1; */ /* Suppression de cette propriété */
+  min-width: 0; /* Permet au texte de wrap si nécessaire sans déborder */
 }
 
 .form-group.cgu-checkbox label a {

@@ -71,13 +71,13 @@ export default function Login({ onLogin }) {
         />
 
         <div className="form-group cgu-checkbox">
+          <label className='form-group' htmlFor="acceptCgu">
           <input
             type="checkbox"
             id="acceptCgu"
             checked={acceptCgu}
             onChange={(e) => setAcceptCgu(e.target.checked)}
           />
-          <label htmlFor="acceptCgu">
             J'ai lu et j'accepte les <a href="#" onClick={(e) => {
               e.preventDefault(); 
               navigate('/conditions'); 

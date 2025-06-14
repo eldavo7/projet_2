@@ -22,10 +22,11 @@ export default function AdminDashboard() {
 
       try {
         const result = await getAdminDashboard(token); // Passe le token à la fonction API
+        console.log('Données reçues du backend pour AdminDashboard:', result); // Laissez le log pour le débogage
+
         if (result.success) {
-          // IMPORTANT: Assurez-vous que le backend renvoie bien un tableau d'utilisateurs
-          // sous la propriété 'data' de l'objet de réponse.
-          setUsers(result.data || []); // Met à jour l'état avec les données d'utilisateurs
+          // CORRECTION ICI: Accédez à result.data.data pour obtenir le tableau d'utilisateurs
+          setUsers(result.data.data || []); // Met à jour l'état avec les données d'utilisateurs
         } else {
           setError(result.message || 'Échec de la récupération des données admin.');
           // Si l'erreur est liée à l'authentification (ex: token invalide/expiré), redirige
