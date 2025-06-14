@@ -1,5 +1,3 @@
-// frontend/src/assets/Conditions.jsx
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // NOUVEAU: Importation de useNavigate
 

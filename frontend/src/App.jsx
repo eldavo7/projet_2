@@ -1,13 +1,12 @@
 // frontend/src/App.jsx
 
 import React, { useState, useEffect } from 'react';
-// Importations de React Router : PAS de BrowserRouter ici, car il est dans main.jsx
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Login from './Login';
-import HomeUser from './HomeUser'; // Vérifiez la faute de frappe ici : 'IomeUser' -> 'HomeUser'
+import Register from './Register'; 
+import HomeUser from './HomeUser'; 
 import AdminDashboard from './AdminDashboard';
-// Assurez-vous que le chemin est correct pour Conditions.jsx
 import Conditions from './assets/Conditions'; 
 
 // Composant Wrapper pour les routes authentifiées et protégées par rôle
@@ -21,8 +20,7 @@ function PrivateRoute({ children, userRole, requiredRole }) {
     } 
     // Si l'utilisateur est connecté mais n'a pas le rôle requis pour cette route
     else if (requiredRole && userRole !== requiredRole) {
-      // Redirige vers la page d'accueil ou une page d'accès refusé
-      navigate('/home', { replace: true }); 
+      navigate('/home', { replace: true }); // Redirige vers la page d'accueil ou une page d'accès refusé
     }
   }, [userRole, requiredRole, navigate]); 
 
@@ -30,16 +28,30 @@ function PrivateRoute({ children, userRole, requiredRole }) {
 }
 
 export default function App() {
-  const [role, setRole] = useState(null); 
+  // CORRECTION CRUCIALE ICI : Initialise le rôle à partir du localStorage
+  // Cela permet de maintenir l'utilisateur connecté après un rafraîchissement de page
+  const [role, setRole] = useState(localStorage.getItem('role') || null); 
+
+  // Optionnel mais bonne pratique : synchroniser localStorage si le rôle change dynamiquement
+  // (par ex., si un admin change le rôle d'un utilisateur sans re-login)
+  useEffect(() => {
+    if (role) {
+      localStorage.setItem('role', role);
+    } else {
+      localStorage.removeItem('role');
+    }
+  }, [role]);
 
   const handleLoginSuccess = (userRole) => {
     setRole(userRole); 
+    // La sauvegarde du token et du rôle dans localStorage est déjà gérée dans Login.jsx
   };
 
   return (
-    // Pas de <BrowserRouter> ici, car il est dans main.jsx
+    // <Router> est dans main.jsx
     <Routes>
       <Route path="/" element={<Login onLogin={handleLoginSuccess} />} />
+      <Route path="/register" element={<Register />} /> 
       <Route path="/conditions" element={<Conditions />} />
 
       <Route 

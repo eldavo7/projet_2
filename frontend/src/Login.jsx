@@ -5,6 +5,7 @@ import { login } from './api';
 import { useNavigate } from 'react-router-dom'; 
 // Avertissement: Supprimez l'importation de './style.css' ici.
 // Elle sera importée globalement dans main.jsx.
+// import './style.css'; // <--- ASSUREZ-VOUS QUE CETTE LIGNE EST BIEN SUPPRIMÉE OU COMMENTÉE
 
 export default function Login({ onLogin }) { 
   const [username, setUsername] = useState('');
@@ -26,12 +27,19 @@ export default function Login({ onLogin }) {
     try {
       const data = await login(username, password);
       if (data.success) {
-        onLogin(data.role); 
+        // NOUVEAU/CORRIGÉ: Stocke le token et le rôle dans le localStorage pour persister la connexion
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role); 
+
+        onLogin(data.role); // Informe le composant parent (App.jsx) du rôle
+        
+        // CORRIGÉ: Redirection vers les chemins de route corrects (en minuscules)
         if (data.role === 'admin') {
-          navigate('/admin');
+          navigate('/admin'); // Correction: de /AdminDashboard à /admin
         } else if (data.role === 'user') {
-          navigate('/home');
+          navigate('/home'); // Correction: de /HomeUser à /home
         } else {
+          // Gérer un rôle inattendu si nécessaire
           navigate('/'); 
         }
       } else {
@@ -49,7 +57,7 @@ export default function Login({ onLogin }) {
         <h2>Connexion</h2>
         <input
           type="text"
-          placeholder="Nom d'utilisateur"
+          placeholder="Nom d'utilisateur ou Email" 
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -70,15 +78,19 @@ export default function Login({ onLogin }) {
             onChange={(e) => setAcceptCgu(e.target.checked)}
           />
           <label htmlFor="acceptCgu">
-            <a href="./assets/Conditions.jsx" className='cgu' target="_blank"onClick={(e) => {
+            J'ai lu et j'accepte les <a href="#" onClick={(e) => {
               e.preventDefault(); 
               navigate('/conditions'); 
-            }}>J'ai lu et j'accepte les Conditions Générales d'Utilisation</a>
+            }}>Conditions Générales d'Utilisation</a>
           </label>
         </div>
 
         <button type="submit">Se connecter</button>
         {error && <p className="error-message">{error}</p>}
+
+        <p className="link-to-register">
+          Pas encore de compte ? <a href="#" onClick={() => navigate('/register')}>Inscrivez-vous ici</a>
+        </p>
       </form>
     </div>
   );

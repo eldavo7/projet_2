@@ -1,19 +1,32 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+// backend/server.js
 
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-const adminRoutes = require('./routes/admin');
+const express = require('express');
+const cors = require('cors'); // Pour gérer les requêtes cross-origin
+const bodyParser = require('body-parser'); // Pour parser les corps de requêtes JSON
+
+const authRoutes = require('./routes/auth');     // Routes d'authentification
+const userRoutes = require('./routes/users');    // NOUVEAU: Routes spécifiques aux utilisateurs
+const adminRoutes = require('./routes/admin');   // NOUVEAU: Routes spécifiques aux administrateurs
 
 const app = express();
+const PORT = process.env.PORT || 3001; // Le port de votre serveur backend
 
-app.use(cors());
-app.use(bodyParser.json());
+// Middleware
+app.use(cors()); // Active CORS pour toutes les requêtes
+app.use(bodyParser.json()); // Pour parser les corps de requêtes au format JSON
+app.use(express.json()); // Alternative/complément à bodyParser.json() avec Express 4.16+
 
-app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/admin', adminRoutes);
+// Routes
+app.use('/api/auth', authRoutes);     // Les routes d'authentification seront préfixées par /api/auth
+app.use('/api/users', userRoutes);    // NOUVEAU: Les routes utilisateurs seront préfixées par /api/users
+app.use('/api/admin', adminRoutes);   // NOUVEAU: Les routes administrateurs seront préfixées par /api/admin
 
-const PORT = 3001;
-app.listen(PORT, () => console.log(`Serveur backend démarré sur port ${PORT}`));
+// Route de test simple
+app.get('/', (req, res) => {
+    res.send('Serveur backend opérationnel !');
+});
+
+// Démarrage du serveur
+app.listen(PORT, () => {
+    console.log(`Serveur backend démarré sur le port ${PORT}`);
+});

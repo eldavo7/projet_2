@@ -1,16 +1,25 @@
+/* frontend/src/style.css */
+
+/* Variables CSS pour faciliter la gestion des couleurs et des tailles */
 :root {
   --primary-color: #007bff;
   --primary-hover: #0056b3;
   --error-color: #dc3545;
+  --success-color: #28a745;
   --text-color: #333;
-  --light-gray: #f4f4f4;
+  --light-gray: #f0f2f5; /* Un gris clair plus doux pour le fond */
+  --medium-gray: #dcdcdc; /* Pour les bordures des inputs */
+  --dark-gray: #555; /* Pour les textes secondaires */
   --white: #ffffff;
-  --border-color: #ccc;
-  --border-radius: 8px;
-  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
+  --border-radius-base: 8px; /* Rayon de bordure par défaut pour les conteneurs */
+  --border-radius-small: 4px; /* Rayon de bordure pour les inputs/boutons */
+  --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
+  --transition-fast: all 0.2s ease;
+  --transition-medium: all 0.3s ease;
 }
 
+/* Réinitialisation CSS de base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -18,84 +27,119 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Inter', sans-serif; /* Comme convenu, utilise Inter */
   background-color: var(--light-gray);
   color: var(--text-color);
-  height: 100vh;
-}
-
-.login-container {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  min-height: 100vh; /* S'assure que le contenu occupe toute la hauteur de la fenêtre */
+  padding: 20px; /* Ajoute un peu de padding pour les petits écrans */
 }
 
-.login-form {
+/* Conteneurs de formulaires (Login et Register) */
+.login-container,
+.register-container {
+  height: auto; /* Ajuste la hauteur en fonction du contenu */
   width: 100%;
-  max-width: 380px;
-  padding: 2rem;
+  max-width: 450px; /* Augmenté légèrement pour les formulaires plus longs */
   background-color: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  padding: 40px;
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--shadow-medium);
+  text-align: center;
   animation: fadeIn 0.5s ease-out;
 }
 
-.login-form h2 {
+/* Formulaires internes (Login et Register) */
+.login-form,
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espacement entre les éléments du formulaire */
+}
+
+/* Titres des formulaires */
+.login-form h2,
+.register-form h2 {
   text-align: center;
   color: var(--primary-color);
-  font-size: 1.75rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.2em; /* Taille de titre augmentée */
+  font-weight: 700;
+  margin-bottom: 1.5rem; /* Espace sous le titre */
 }
 
-.login-form input {
-  padding: 0.875rem;
-  font-size: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  transition: var(--transition);
+/* Champs d'entrée */
+.login-form input,
+.register-form input {
+  padding: 12px;
+  font-size: 1.05em;
+  border: 1px solid var(--medium-gray);
+  border-radius: var(--border-radius-small);
+  transition: var(--transition-fast);
+  width: 100%; /* S'assure qu'ils prennent toute la largeur disponible */
 }
 
-.login-form input:focus {
+.login-form input:focus,
+.register-form input:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
   outline: none;
 }
 
-.login-form button {
-  padding: 0.875rem;
-  font-size: 1rem;
+/* Boutons de soumission (Login, Register et Retour Conditions) */
+.login-form button,
+.register-form button,
+.conditions-container .back-button {
+  padding: 14px 28px; /* Plus grand */
+  font-size: 1.15em;
   font-weight: 600;
   color: var(--white);
   background-color: var(--primary-color);
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-small);
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--transition-medium);
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
 
-.login-form button:hover {
+.login-form button:hover,
+.register-form button:hover,
+.conditions-container .back-button:hover {
   background-color: var(--primary-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
 }
 
+/* Messages d'erreur et de succès */
 .error-message {
   text-align: center;
   color: var(--error-color);
   background-color: rgba(220, 53, 69, 0.1);
-  padding: 0.5rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  padding: 10px;
+  border-radius: var(--border-radius-small);
+  font-size: 0.9em;
+  margin-top: 10px; /* Espace au-dessus */
+  animation: fadeIn 0.5s ease-out;
 }
 
+.success-message {
+  text-align: center;
+  color: var(--success-color);
+  background-color: rgba(40, 167, 69, 0.1);
+  padding: 10px;
+  border-radius: var(--border-radius-small);
+  font-size: 0.9em;
+  margin-top: 10px; /* Espace au-dessus */
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
@@ -103,35 +147,194 @@ body {
   }
 }
 
-@media (max-width: 480px) {
-  .login-form {
-    padding: 1.5rem;
-    max-width: 95%;
-  }
-
-  .login-form h2 {
-    font-size: 1.5rem;
-  }
+/* Styles spécifiques pour la checkbox des CGU */
+.form-group.cgu-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centrage horizontal */
+  margin-top: 5px; /* Petit espace au-dessus */
+  margin-bottom: 15px; /* Espace sous la checkbox */
+  flex-wrap: wrap; /* Permet au texte de passer à la ligne sur petits écrans */
 }
 
-input#acceptCgu {
-  margin-right: 8px;
-  vertical-align: middle;
-  text-decoration: none;
-}
-label a.cgu {
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
+.form-group.cgu-checkbox input[type="checkbox"] {
+  width: auto; /* Ne prend pas toute la largeur */
+  margin-right: 10px;
+  transform: scale(1.15); /* Légèrement plus grande */
+  accent-color: var(--primary-color); /* Couleur de la coche */
 }
 
 .form-group.cgu-checkbox label {
-  cursor: pointer; /* <--- C'EST LA PROPRIÉTÉ QUI AJOUTE L'EFFET POINTEUR AU CURSEUR */
   font-size: 0.95em;
-  color: #555;
-  line-height: 1.4; /* Améliore la lisibilité des lignes de texte */
+  color: var(--dark-gray);
+  text-align: left; /* Assure que le texte du label s'aligne bien */
+  line-height: 1.4;
+  cursor: pointer; /* Indique que le label est cliquable */
 }
 
-label a.cgu:hover {
-  color: #008000; /* Une nuance de bleu plus foncée au survol pour un feedback */
+.form-group.cgu-checkbox label a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 4px; /* Petit espace entre le texte et le lien */
+}
+
+.form-group.cgu-checkbox label a:hover {
+  text-decoration: underline;
+  color: var(--primary-hover);
+}
+
+/* Liens en bas des formulaires (vers inscription/connexion) */
+.link-to-register,
+.link-to-login {
+  margin-top: 20px;
+  font-size: 0.95em;
+  color: var(--dark-gray);
+}
+
+.link-to-register a,
+.link-to-login a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-to-register a:hover,
+.link-to-login a:hover {
+  text-decoration: underline;
+}
+
+/* Styles pour les Conditions Générales d'Utilisation */
+.conditions-container {
+  background-color: var(--white);
+  padding: 40px;
+  border-radius: var(--border-radius-base);
+  box-shadow: var(--shadow-medium);
+  max-width: 800px;
+  width: 100%;
+  margin: 20px auto; 
+}
+
+.conditions-container h2 {
+  color: var(--primary-color);
+  margin-bottom: 25px;
+  font-size: 2.2em;
+  text-align: center;
+  font-weight: 700;
+}
+
+.conditions-container p, 
+.conditions-container ul {
+  font-size: 1.05em;
+  line-height: 1.7;
+  margin-bottom: 15px;
+  text-align: left; /* Pour le texte des CGU */
+}
+
+.conditions-container ul {
+  list-style-type: disc;
+  padding-left: 25px;
+}
+
+.conditions-container li {
+  margin-bottom: 8px;
+}
+
+/* Bouton retour des conditions générales */
+.conditions-container .back-button {
+  background-color: #6c757d; /* Gris secondaire */
+  box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
+}
+
+.conditions-container .back-button:hover {
+  background-color: #5a6268; /* Gris secondaire plus foncé au survol */
+}
+
+/* Styles pour HomeUser et AdminDashboard (placeholders, à développer) */
+.dashboard-container {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+    margin: 20px auto;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard-container h2 {
+    color: var(--primary-color);
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.dashboard-container p {
+    font-size: 1.2em;
+    color: var(--dark-gray);
+    margin-bottom: 30px;
+}
+
+.logout-button {
+    background-color: var(--error-color); /* Rouge pour le bouton de déconnexion */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: var(--transition-medium);
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+}
+
+.logout-button:hover {
+    background-color: #c82333; /* Nuance plus foncée au survol */
+    transform: translateY(-2px);
+}
+
+/* Media Queries pour la réactivité */
+@media (max-width: 768px) {
+  .login-container,
+  .register-container,
+  .conditions-container,
+  .dashboard-container {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-form,
+  .register-form {
+    padding: 1.5rem;
+  }
+
+  .login-form h2,
+  .register-form h2,
+  .conditions-container h2,
+  .dashboard-container h2 {
+    font-size: 1.8em;
+  }
+
+  .login-form input,
+  .register-form input {
+    font-size: 0.95em;
+    padding: 10px;
+  }
+
+  .form-group.cgu-checkbox label {
+    font-size: 0.9em;
+  }
+
+  .login-form button,
+  .register-form button,
+  .conditions-container .back-button,
+  .logout-button {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
 }
