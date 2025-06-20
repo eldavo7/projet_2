@@ -3,15 +3,18 @@
 import { useState } from 'react';
 import { login } from './api';
 import { useNavigate } from 'react-router-dom'; 
+
 // Avertissement: Supprimez l'importation de './style.css' ici.
 // Elle sera importée globalement dans main.jsx.
-// import './style.css'; // <--- ASSUREZ-VOUS QUE CETTE LIGNE EST BIEN SUPPRIMÉE OU COMMENTÉE
+// import './style.css'; 
 
 export default function Login({ onLogin }) { 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [acceptCgu, setAcceptCgu] = useState(false); 
   const [error, setError] = useState(null);
+  // NOUVEAU: État pour gérer la visibilité du mot de passe (défaut: caché)
+  const [showPassword, setShowPassword] = useState(false); 
 
   const navigate = useNavigate(); 
 
@@ -27,17 +30,17 @@ export default function Login({ onLogin }) {
     try {
       const data = await login(username, password);
       if (data.success) {
-        // NOUVEAU/CORRIGÉ: Stocke le token et le rôle dans le localStorage pour persister la connexion
+        // Stocke le token et le rôle dans le localStorage pour persister la connexion
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role); 
 
         onLogin(data.role); // Informe le composant parent (App.jsx) du rôle
         
-        // CORRIGÉ: Redirection vers les chemins de route corrects (en minuscules)
+        // Redirection vers les chemins de route corrects (en minuscules)
         if (data.role === 'admin') {
-          navigate('/admin'); // Correction: de /AdminDashboard à /admin
+          navigate('/admin');
         } else if (data.role === 'user') {
-          navigate('/home'); // Correction: de /HomeUser à /home
+          navigate('/home');
         } else {
           // Gérer un rôle inattendu si nécessaire
           navigate('/'); 
@@ -62,22 +65,37 @@ export default function Login({ onLogin }) {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        
+        {/* CORRIGÉ: Conteneur OBLIGATOIRE pour le champ de mot de passe et le bouton toggle */}
+        {/* L'input et le bouton DOIVENT être dans cette div pour un positionnement CSS correct */}
+        <div className="password-input-group">
+          <input
+            type={showPassword ? "text" : "password"} // Type change en fonction de showPassword
+            placeholder="Mot de passe"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button" // Important: type="button" pour éviter la soumission du formulaire
+            onClick={() => setShowPassword(!showPassword)}
+            className="toggle-password-visibility"
+            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+          >
+            {/* Icônes basées sur l'image fournie (œil barré pour masqué, œil pour affiché) */}
+            {showPassword ? '👁️' : '⊘'} 
+          </button>
+        </div>
 
         <div className="form-group cgu-checkbox">
-          <label className='form-group' htmlFor="acceptCgu">
+          {/* CORRIGÉ: Retirer la classe 'form-group' du label, elle est déjà sur la div parente */}
           <input
             type="checkbox"
             id="acceptCgu"
             checked={acceptCgu}
             onChange={(e) => setAcceptCgu(e.target.checked)}
           />
+          <label htmlFor="acceptCgu">
             J'ai lu et j'accepte les <a href="#" onClick={(e) => {
               e.preventDefault(); 
               navigate('/conditions'); 
@@ -91,6 +109,7 @@ export default function Login({ onLogin }) {
         <p className="link-to-register">
           Pas encore de compte ? <a href="#" onClick={() => navigate('/register')}>Inscrivez-vous ici</a>
         </p>
+
       </form>
     </div>
   );

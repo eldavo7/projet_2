@@ -57,6 +57,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem; /* Espacement entre les éléments du formulaire */
+  /* IMPORTANT: position: relative; pour que les éléments enfants absolument positionnés se comportent correctement */
+  position: relative; 
 }
 
 /* Titres des formulaires */
@@ -87,13 +89,58 @@ body {
   outline: none;
 }
 
+/* NOUVEAU/CORRIGÉ: Styles pour le groupe input mot de passe et bouton toggle */
+.password-input-group {
+    position: relative; /* INDISPENSABLE pour positionner le bouton à l'intérieur */
+    width: 100%;
+    margin-bottom: 1rem; /* Espace avec l'élément suivant */
+}
+
+.password-input-group input {
+    /* L'input à l'intérieur du groupe prend toute sa largeur */
+    width: 100%; 
+    padding-right: 40px; /* Laisse de l'espace pour le bouton toggle à droite */
+    margin-bottom: 0; /* Important pour éviter une double marge si l'input avait déjà une marge-bottom */
+}
+
+.toggle-password-visibility {
+    position: absolute;
+    right: 12px; /* Positionne le bouton à droite de l'input */
+    top: 50%;
+    transform: translateY(-50%); /* Centre verticalement le bouton */
+    
+    /* CORRECTION CLÉ: Réinitialisation et styles spécifiques pour OVERRIDER les styles de bouton génériques */
+    background: none !important; /* Force l'absence de fond */
+    border: none !important;     /* Force l'absence de bordure */
+    box-shadow: none !important; /* Force l'absence d'ombre */
+    padding: 0 !important;      /* Force l'absence de padding */
+    width: auto !important;      /* Empêche de prendre 100% de la largeur */
+    
+    cursor: pointer;
+    font-size: 1.4em; /* Taille de l'icône */
+    color: var(--dark-gray);
+    transition: color 0.2s ease, opacity 0.2s ease;
+    z-index: 10; /* S'assure que le bouton est au-dessus de l'input */
+    display: flex; /* Pour centrer l'icône/emoji si elle est plus petite */
+    align-items: center;
+    justify-content: center;
+    line-height: 1; /* Élimine l'espace supplémentaire de la ligne */
+    opacity: 0.7; /* Légèrement transparent pour un look plus léger */
+}
+
+.toggle-password-visibility:hover {
+    color: var(--primary-color);
+    opacity: 1;
+}
+
+
 /* Boutons de soumission (Login, Register et Retour Conditions) */
 .login-form button,
 .register-form button,
-.conditions-container .back-button { /* Appliqué aussi au bouton retour */
+.conditions-container .back-button { 
   background-color: var(--primary-color);
   color: white;
-  padding: 14px 28px; /* Plus grand */
+  padding: 14px 28px; 
   border: none;
   border-radius: var(--border-radius-small);
   cursor: pointer;
@@ -120,7 +167,7 @@ body {
   padding: 10px;
   border-radius: var(--border-radius-small);
   font-size: 0.9em;
-  margin-top: 10px; /* Espace au-dessus */
+  margin-top: 10px; 
   animation: fadeIn 0.5s ease-out;
 }
 
@@ -131,7 +178,7 @@ body {
   padding: 10px;
   border-radius: var(--border-radius-small);
   font-size: 0.9em;
-  margin-top: 10px; /* Espace au-dessus */
+  margin-top: 10px; 
   animation: fadeIn 0.5s ease-out;
 }
 
@@ -152,39 +199,36 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Aligne les éléments au début (à gauche) */
-  margin-top: 5px; /* Petit espace au-dessus */
-  margin-bottom: 15px; /* Espace sous la checkbox */
-  flex-wrap: wrap; /* Permet au texte de passer à la ligne sur petits écrans (utile pour la réactivité) */
-  width: 100%; /* S'assurer qu'il prend toute la largeur du conteneur */
-  padding: 0 12px; /* Ajoute un padding horizontal pour aligner avec les inputs */
-  box-sizing: border-box; /* Inclure le padding dans la largeur */
+  margin-top: 5px; 
+  margin-bottom: 15px; 
+  flex-wrap: wrap; 
+  width: 100%; 
+  padding: 0 12px; 
+  box-sizing: border-box; 
 }
 
 .form-group.cgu-checkbox input[type="checkbox"] {
-  width: auto; /* Ne prend pas toute la largeur */
+  width: auto; 
   margin-right: 10px;
-  transform: scale(1.15); /* Légèrement plus grande */
-  accent-color: var(--primary-color); /* Couleur de la coche */
-  /* Assurez-vous qu'elle est bien alignée verticalement */
-  flex-shrink: 0; /* Empêche la checkbox de rétrécir */
+  transform: scale(1.15); 
+  accent-color: var(--primary-color); 
+  flex-shrink: 0; 
 }
 
 .form-group.cgu-checkbox label {
   font-size: 0.95em;
   color: var(--dark-gray);
-  text-align: left; /* Assure que le texte du label s'aligne bien */
+  text-align: left; 
   line-height: 1.4;
-  cursor: pointer; /* Indique que le label est cliquable */
-  /* CORRECTION: Retire flex-grow pour que le label prenne juste la place nécessaire */
-  /* flex-grow: 1; */ /* Suppression de cette propriété */
-  min-width: 0; /* Permet au texte de wrap si nécessaire sans déborder */
+  cursor: pointer; 
+  min-width: 0; 
 }
 
 .form-group.cgu-checkbox label a {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: 600;
-  margin-left: 4px; /* Petit espace entre le texte et le lien */
+  margin-left: 4px; 
 }
 
 .form-group.cgu-checkbox label a:hover {
@@ -236,7 +280,7 @@ body {
   font-size: 1.05em;
   line-height: 1.7;
   margin-bottom: 15px;
-  text-align: left; /* Pour le texte des CGU */
+  text-align: left; 
 }
 
 .conditions-container ul {
@@ -250,12 +294,12 @@ body {
 
 /* Bouton retour des conditions générales */
 .conditions-container .back-button {
-  background-color: #6c757d; /* Gris secondaire */
+  background-color: #6c757d; 
   box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
 }
 
 .conditions-container .back-button:hover {
-  background-color: #5a6268; /* Gris secondaire plus foncé au survol */
+  background-color: #5a6268; 
 }
 
 /* Styles pour HomeUser et AdminDashboard (placeholders, à développer) */
@@ -288,7 +332,7 @@ body {
 }
 
 .logout-button {
-    background-color: var(--error-color); /* Rouge pour le bouton de déconnexion */
+    background-color: var(--error-color); 
     color: white;
     padding: 12px 25px;
     border: none;
@@ -301,7 +345,7 @@ body {
 }
 
 .logout-button:hover {
-    background-color: #c82333; /* Nuance plus foncée au survol */
+    background-color: #c82333; 
     transform: translateY(-2px);
 }
 
