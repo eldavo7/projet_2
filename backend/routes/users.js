@@ -7,7 +7,7 @@ const db = require('../config/db'); // Importe la connexion à la base de donné
 
 // Route protégée pour récupérer les informations de l'utilisateur connecté
 // Seuls les utilisateurs authentifiés peuvent accéder à cette route.
-router.get('/home', protect, async (req, res) => {
+router.get('/dashboard', protect, async (req, res) => {
     try {
         // req.user est défini par le middleware 'protect' et contient l'ID et le rôle de l'utilisateur
         const userId = req.user.id;

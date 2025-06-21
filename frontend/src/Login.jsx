@@ -13,7 +13,7 @@ export default function Login({ onLogin }) {
   const [password, setPassword] = useState('');
   const [acceptCgu, setAcceptCgu] = useState(false); 
   const [error, setError] = useState(null);
-  // NOUVEAU: État pour gérer la visibilité du mot de passe (défaut: caché)
+  // État pour gérer la visibilité du mot de passe (défaut: caché)
   const [showPassword, setShowPassword] = useState(false); 
 
   const navigate = useNavigate(); 
@@ -30,19 +30,16 @@ export default function Login({ onLogin }) {
     try {
       const data = await login(username, password);
       if (data.success) {
-        // Stocke le token et le rôle dans le localStorage pour persister la connexion
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role); 
 
-        onLogin(data.role); // Informe le composant parent (App.jsx) du rôle
+        onLogin(data.role); 
         
-        // Redirection vers les chemins de route corrects (en minuscules)
         if (data.role === 'admin') {
           navigate('/admin');
         } else if (data.role === 'user') {
           navigate('/home');
         } else {
-          // Gérer un rôle inattendu si nécessaire
           navigate('/'); 
         }
       } else {
@@ -66,8 +63,7 @@ export default function Login({ onLogin }) {
           required
         />
         
-        {/* CORRIGÉ: Conteneur OBLIGATOIRE pour le champ de mot de passe et le bouton toggle */}
-        {/* L'input et le bouton DOIVENT être dans cette div pour un positionnement CSS correct */}
+        {/* Conteneur pour le champ de mot de passe et le bouton toggle */}
         <div className="password-input-group">
           <input
             type={showPassword ? "text" : "password"} // Type change en fonction de showPassword
@@ -88,7 +84,6 @@ export default function Login({ onLogin }) {
         </div>
 
         <div className="form-group cgu-checkbox">
-          {/* CORRIGÉ: Retirer la classe 'form-group' du label, elle est déjà sur la div parente */}
           <input
             type="checkbox"
             id="acceptCgu"
@@ -110,6 +105,10 @@ export default function Login({ onLogin }) {
           Pas encore de compte ? <a href="#" onClick={() => navigate('/register')}>Inscrivez-vous ici</a>
         </p>
 
+        {/* NOUVEAU: Lien vers la page Mot de passe perdu */}
+        <p className="link-to-register"> 
+          <a href="#" onClick={() => navigate('/forgot-password')}>Mot de passe perdu ?</a>
+        </p>
       </form>
     </div>
   );

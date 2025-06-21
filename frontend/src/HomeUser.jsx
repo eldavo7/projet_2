@@ -1,51 +1,49 @@
 // frontend/src/HomeUser.jsx
 
 import { useEffect, useState } from 'react';
-import { getUserHome } from './api'; // Importe la fonction API pour la page utilisateur
-import { useNavigate } from 'react-router-dom'; // Pour la redirection après déconnexion
+import { getUserHome } from './api'; 
+import { useNavigate } from 'react-router-dom'; 
 
 export default function HomeUser() {
-  const [userData, setUserData] = useState(null); // Pour stocker les données de l'utilisateur
-  const [loading, setLoading] = useState(true); // État de chargement
-  const [error, setError] = useState(null); // Pour gérer les erreurs
+  const [userData, setUserData] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem('token'); // Récupère le token JWT
+      const token = localStorage.getItem('token'); 
       if (!token) {
-        // Si pas de token, redirige vers la page de connexion
-        navigate('/', { replace: true });
+        navigate('/', { replace: true }); 
         return;
       }
 
       try {
-        const result = await getUserHome(token); // Passe le token à la fonction API
+        const result = await getUserHome(token); 
         if (result.success) {
-          setUserData(result.data); // Stocke toutes les données reçues (ex: { pseudo: "...", email: "..." })
+          setUserData(result.data); 
         } else {
           setError(result.message || 'Échec de la récupération des données utilisateur.');
-          // Si l'erreur est liée à l'authentification (ex: token invalide/expiré), redirige
-          if (result.message && (result.message.includes('non autorisé') || result.message.includes('invalide'))) {
-            handleLogout(); // Déconnecte l'utilisateur si le token est invalide
+          if (result.message && (result.message.includes('non autorisé') || result.message.includes('expirée'))) {
+            handleLogout(); 
           }
         }
       } catch (err) {
         console.error("Erreur lors du chargement de la page HomeUser:", err);
-        setError("Erreur lors de la récupération des données. Veuillez réessayer.");
+        setError("Erreur lors de la récupération des données utilisateur. Veuillez réessayer.");
       } finally {
-        setLoading(false); // Arrête l'état de chargement
+        setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [navigate]); // Dépendance à navigate
+  }, [navigate]);
 
-  // Fonction de déconnexion
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Supprime le token du localStorage
-    navigate('/', { replace: true }); // Redirige vers la page de connexion
+    localStorage.removeItem('token');
+    localStorage.removeItem('role'); 
+    navigate('/', { replace: true });
   };
 
   if (loading) {
@@ -69,7 +67,6 @@ export default function HomeUser() {
           <p>Email: {userData.email}</p>
           {userData.telephone && <p>Téléphone: {userData.telephone}</p>}
           {userData.adresse && <p>Adresse: {userData.adresse}</p>}
-          {/* Vous pouvez afficher d'autres informations ici */}
         </div>
       ) : (
         <p>Aucune information utilisateur disponible.</p>

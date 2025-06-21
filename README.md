@@ -6,12 +6,19 @@ Cette application est construite avec :
 - **Backend** : Node.js / phpMyAdmin (via une base de données MySQL)
 
 
-apres avoir creer tout le processus de connexion , ici j'ajoute seulement qq modifs
-- `cd /frontend/` -> `npm install react-router-dom`
+apres avoir creer tout le processus de connexion , ici j'ajoute un systeme de mot de passe perdu 
+-> /backend
+-> npm install nodemailer
 -- Modification de : 
-        - `modified:   .gitignore`
-        - `modified:   frontend/src/AdminDashboard.jsx`
+        - `modified:   .env`
+        - `modified:   frontend/src/App.jsx`
         - `modified:   frontend/src/Login.jsx`
-        - `modified:   frontend/src/style.css`
+        - `modified:   frontend/src/ForgotPassword.jsx`
+        - `modified:   frontend/src/ResetPassword.jsx`
+        - `modified:   frontend/src/api.jsx`
+        - `modified:   backend/routes/auth.js`...
 
-Modification observable. css -> checkbox CGU et routes /AdminDashboar.jsx => affiche la liste des users
+
+* en PRODUCTION LES DONNEES SENSSIBLES SONT DANS .env
+* Une fois en production le serveur Heroku, AWS... gerera les donnees sensible 
+

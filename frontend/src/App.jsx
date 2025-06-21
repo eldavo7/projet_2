@@ -8,19 +8,19 @@ import Register from './Register';
 import HomeUser from './HomeUser'; 
 import AdminDashboard from './AdminDashboard';
 import Conditions from './assets/Conditions'; 
+// Assurez-vous que ForgotPassword et ResetPassword utilisent 'export default' dans leurs fichiers
+import ForgotPassword from './ForgotPassword'; 
+import ResetPassword from './ResetPassword';   
 
 // Composant Wrapper pour les routes authentifiées et protégées par rôle
 function PrivateRoute({ children, userRole, requiredRole }) {
   const navigate = useNavigate(); 
 
   useEffect(() => {
-    // Si l'utilisateur n'est pas connecté du tout (rôle est null)
     if (!userRole) {
-      navigate('/', { replace: true }); // Redirige vers la page de connexion
-    } 
-    // Si l'utilisateur est connecté mais n'a pas le rôle requis pour cette route
-    else if (requiredRole && userRole !== requiredRole) {
-      navigate('/home', { replace: true }); // Redirige vers la page d'accueil ou une page d'accès refusé
+      navigate('/', { replace: true }); 
+    } else if (requiredRole && userRole !== requiredRole) {
+      navigate('/home', { replace: true }); 
     }
   }, [userRole, requiredRole, navigate]); 
 
@@ -28,12 +28,8 @@ function PrivateRoute({ children, userRole, requiredRole }) {
 }
 
 export default function App() {
-  // CORRECTION CRUCIALE ICI : Initialise le rôle à partir du localStorage
-  // Cela permet de maintenir l'utilisateur connecté après un rafraîchissement de page
   const [role, setRole] = useState(localStorage.getItem('role') || null); 
 
-  // Optionnel mais bonne pratique : synchroniser localStorage si le rôle change dynamiquement
-  // (par ex., si un admin change le rôle d'un utilisateur sans re-login)
   useEffect(() => {
     if (role) {
       localStorage.setItem('role', role);
@@ -44,15 +40,18 @@ export default function App() {
 
   const handleLoginSuccess = (userRole) => {
     setRole(userRole); 
-    // La sauvegarde du token et du rôle dans localStorage est déjà gérée dans Login.jsx
   };
 
   return (
-    // <Router> est dans main.jsx
+    // Le <BrowserRouter> doit être dans main.jsx, PAS ici.
     <Routes>
       <Route path="/" element={<Login onLogin={handleLoginSuccess} />} />
       <Route path="/register" element={<Register />} /> 
       <Route path="/conditions" element={<Conditions />} />
+      
+      {/* Routes pour la réinitialisation de mot de passe */}
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} /> 
 
       <Route 
         path="/home" 
