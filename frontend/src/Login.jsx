@@ -72,15 +72,16 @@ export default function Login({ onLogin }) {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button
+          {/* NOUVEAU/CORRIGÉ: Un seul bouton avec la logique et les icônes */}
+          <span
             type="button" // Important: type="button" pour éviter la soumission du formulaire
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => setShowPassword(!showPassword)} // Utilise directement setShowPassword
             className="toggle-password-visibility"
             aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
           >
-            {/* Icônes basées sur l'image fournie (œil barré pour masqué, œil pour affiché) */}
+            {/* Icônes: '⊘' par défaut (caché), '👁️' si visible */}
             {showPassword ? '👁️' : '⊘'} 
-          </button>
+          </span>
         </div>
 
         <div className="form-group cgu-checkbox">
@@ -105,7 +106,6 @@ export default function Login({ onLogin }) {
           Pas encore de compte ? <a href="#" onClick={() => navigate('/register')}>Inscrivez-vous ici</a>
         </p>
 
-        {/* NOUVEAU: Lien vers la page Mot de passe perdu */}
         <p className="link-to-register"> 
           <a href="#" onClick={() => navigate('/forgot-password')}>Mot de passe perdu ?</a>
         </p>
