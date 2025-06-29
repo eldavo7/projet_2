@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Login from './Login';
-import Register from './Register'; 
+import Register from './Register';
 import HomeUser from './HomeUser'; 
 import AdminDashboard from './AdminDashboard';
 import Conditions from './assets/Conditions'; 

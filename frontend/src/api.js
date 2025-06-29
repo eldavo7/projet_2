@@ -1,6 +1,6 @@
-// frontend/src/api.jsx
+// frontend/src/api.js
 
-const API_BASE_URL = 'http://localhost:3001/api'; // Assurez-vous que c'est le bon port et le bon chemin de votre backend
+const API_BASE_URL = 'http://localhost:3001/api'; 
 
 // Fonction de connexion
 export const login = async (username, password) => {
@@ -46,7 +46,7 @@ export const register = async (userData) => {
     }
 };
 
-// NOUVEAU: Fonction pour demander un lien de réinitialisation de mot de passe
+// Fonction pour demander un lien de réinitialisation de mot de passe
 export const requestPasswordReset = async (email) => {
     try {
         const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
@@ -57,8 +57,6 @@ export const requestPasswordReset = async (email) => {
             body: JSON.stringify({ email }),
         });
         const data = await response.json();
-        // Le backend envoie toujours un message générique pour des raisons de sécurité,
-        // même si l'email n'existe pas, pour ne pas révéler les adresses email enregistrées.
         if (response.ok) {
             return { success: true, message: data.message };
         } else {
@@ -70,7 +68,7 @@ export const requestPasswordReset = async (email) => {
     }
 };
 
-// NOUVEAU: Fonction pour réinitialiser le mot de passe avec un token
+// Fonction pour réinitialiser le mot de passe avec un token
 export const resetUserPassword = async (token, newPassword) => {
     try {
         const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
@@ -92,22 +90,20 @@ export const resetUserPassword = async (token, newPassword) => {
     }
 };
 
-// NOUVEAU: Fonction pour récupérer les données spécifiques à l'utilisateur depuis le HomeUser
+// Fonction pour récupérer les données spécifiques à l'utilisateur
 export const getUserHome = async (token) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/users/dashboard`, { // Nouvelle route backend
+        const response = await fetch(`${API_BASE_URL}/users/dashboard`, { 
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // IMPORTANT: Envoyez le token pour l'authentification
+                'Authorization': `Bearer ${token}` 
             },
         });
         const data = await response.json();
         if (response.ok) {
-            // Le backend renvoie souvent les données dans une propriété 'data'
             return { success: true, data: data.data, message: data.message }; 
         } else {
-            // Gérer les erreurs d'authentification (token invalide/expiré)
             if (response.status === 401 || response.status === 403) {
                 return { success: false, message: data.message || 'Accès non autorisé ou session expirée. Veuillez vous reconnecter.' };
             }
@@ -119,7 +115,7 @@ export const getUserHome = async (token) => {
     }
 };
 
-// Vous pouvez ajouter d'autres fonctions API ici si nécessaire
+// Fonction pour récupérer les données du tableau de bord administrateur
 export const getAdminDashboard = async (token) => {
     try {
         const response = await fetch(`${API_BASE_URL}/admin/dashboard`, {
@@ -141,5 +137,54 @@ export const getAdminDashboard = async (token) => {
     } catch (error) {
         console.error('Erreur réseau ou du serveur lors de la récupération des données admin:', error);
         return { success: false, message: 'Erreur de connexion : impossible de joindre le serveur pour les données admin.' };
+    }
+};
+
+// NOUVEAU: Fonction pour créer une publication
+export const createPost = async (postData, token) => {
+    try {
+        // Pour les téléchargements de fichiers (multipart/form-data), ne définissez PAS le Content-Type.
+        // Le navigateur le fera automatiquement avec les bonnes limites de boundary.
+        const response = await fetch(`${API_BASE_URL}/posts/posts`, { // Chemin vers la nouvelle route
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}` 
+            },
+            body: postData, // postData sera un objet FormData
+        });
+        const data = await response.json();
+        if (response.ok) {
+            return { success: true, message: data.message, post: data.post };
+        } else {
+            return { success: false, message: data.message || 'Échec de la création de la publication.' };
+        }
+    } catch (error) {
+        console.error('Erreur réseau ou du serveur lors de la création de la publication:', error);
+        return { success: false, message: 'Erreur: Impossible de joindre le serveur pour créer la publication.' };
+    }
+};
+
+// NOUVEAU: Fonction pour récupérer toutes les publications
+export const getPosts = async (token) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/posts/posts`, { // Chemin vers la nouvelle route
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            },
+        });
+        const data = await response.json();
+        if (response.ok) {
+            return { success: true, posts: data.posts }; // Le backend renvoie un objet { posts: [...] }
+        } else {
+            if (response.status === 401 || response.status === 403) {
+                return { success: false, message: data.message || 'Accès non autorisé ou session expirée. Veuillez vous reconnecter.' };
+            }
+            return { success: false, message: data.message || 'Échec de la récupération des publications.' };
+        }
+    } catch (error) {
+        console.error('Erreur réseau ou du serveur lors de la récupération des publications:', error);
+        return { success: false, message: 'Erreur: Impossible de joindre le serveur pour récupérer les publications.' };
     }
 };

@@ -7,14 +7,14 @@
   --error-color: #dc3545;
   --success-color: #28a745;
   --text-color: #333;
-  --light-gray: #f0f2f5; /* Un gris clair plus doux pour le fond */
-  --medium-gray: #dcdcdc; /* Pour les bordures des inputs */
-  --dark-gray: #555; /* Pour les textes secondaires */
+  --light-gray: #f0f2f5; 
+  --medium-gray: #dcdcdc; 
+  --dark-gray: #555; 
   --white: #ffffff;
-  --border-radius-base: 8px; /* Rayon de bordure par défaut pour les conteneurs */
-  --border-radius-small: 4px; /* Rayon de bordure pour les inputs/boutons */
-  --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
-  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
+  --border-radius-base: 8px; 
+  --border-radius-small: 4px; 
+  --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15); 
   --transition-fast: all 0.2s ease;
   --transition-medium: all 0.3s ease;
 }
@@ -27,22 +27,22 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif; /* Comme convenu, utilise Inter */
+  font-family: 'Inter', sans-serif; 
   background-color: var(--light-gray);
   color: var(--text-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* S'assure que le contenu occupe toute la hauteur de la fenêtre */
-  padding: 20px; /* Ajoute un peu de padding pour les petits écrans */
+  min-height: 100vh; 
+  padding: 20px; 
 }
 
 /* Conteneurs de formulaires (Login et Register) */
 .login-container,
 .register-container {
-  height: auto; /* Ajuste la hauteur en fonction du contenu */
+  height: auto; 
   width: 100%;
-  max-width: 450px; /* Augmenté légèrement pour les formulaires plus longs */
+  max-width: 450px; 
   background-color: var(--white);
   padding: 40px;
   border-radius: var(--border-radius-base);
@@ -56,8 +56,7 @@ body {
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Espacement entre les éléments du formulaire */
-  /* IMPORTANT: position: relative; pour que les éléments enfants absolument positionnés se comportent correctement */
+  gap: 1rem; 
   position: relative; 
 }
 
@@ -66,9 +65,9 @@ body {
 .register-form h2 {
   text-align: center;
   color: var(--primary-color);
-  font-size: 2.2em; /* Taille de titre augmentée */
+  font-size: 2.2em; 
   font-weight: 700;
-  margin-bottom: 1.5rem; /* Espace sous le titre */
+  margin-bottom: 1.5rem; 
 }
 
 /* Champs d'entrée */
@@ -79,7 +78,7 @@ body {
   border: 1px solid var(--medium-gray);
   border-radius: var(--border-radius-small);
   transition: var(--transition-fast);
-  width: 100%; /* S'assure qu'ils prennent toute la largeur disponible */
+  width: 100%; 
 }
 
 .login-form input:focus,
@@ -89,43 +88,41 @@ body {
   outline: none;
 }
 
-/* NOUVEAU/CORRIGÉ: Styles pour le groupe input mot de passe et bouton toggle */
+/* Styles pour le groupe input mot de passe et bouton toggle */
 .password-input-group {
-    position: relative; /* INDISPENSABLE pour positionner le bouton à l'intérieur */
+    position: relative; 
     width: 100%;
-    margin-bottom: 1rem; /* Espace avec l'élément suivant */
+    margin-bottom: 1rem; 
 }
 
 .password-input-group input {
-    /* L'input à l'intérieur du groupe prend toute sa largeur */
     width: 100%; 
-    padding-right: 40px; /* Laisse de l'espace pour le bouton toggle à droite */
-    margin-bottom: 0; /* Important pour éviter une double marge si l'input avait déjà une marge-bottom */
+    padding-right: 40px; 
+    margin-bottom: 0; 
 }
 
 .toggle-password-visibility {
     position: absolute;
-    right: 12px; /* Positionne le bouton à droite de l'input */
+    right: 12px; 
     top: 50%;
-    transform: translateY(-50%); /* Centre verticalement le bouton */
+    transform: translateY(-50%); 
     
-    /* CORRECTION CLÉ: Réinitialisation et styles spécifiques pour OVERRIDER les styles de bouton génériques */
-    background: none !important; /* Force l'absence de fond */
-    border: none !important;     /* Force l'absence de bordure */
-    box-shadow: none !important; /* Force l'absence d'ombre */
-    padding: 0 !important;      /* Force l'absence de padding */
-    width: auto !important;      /* Empêche de prendre 100% de la largeur */
+    background: none !important; 
+    border: none !important;     
+    box-shadow: none !important; 
+    padding: 0 !important;      
+    width: auto !important;      
     
     cursor: pointer;
-    font-size: 1.4em; /* Taille de l'icône */
+    font-size: 1.4em; 
     color: var(--dark-gray);
     transition: color 0.2s ease, opacity 0.2s ease;
-    z-index: 10; /* S'assure que le bouton est au-dessus de l'input */
-    display: flex; /* Pour centrer l'icône/emoji si elle est plus petite */
+    z-index: 10; 
+    display: flex; 
     align-items: center;
     justify-content: center;
-    line-height: 1; /* Élimine l'espace supplémentaire de la ligne */
-    opacity: 0.7; /* Légèrement transparent pour un look plus léger */
+    line-height: 1; 
+    opacity: 0.7; 
 }
 
 .toggle-password-visibility:hover {
@@ -198,7 +195,7 @@ body {
 .form-group.cgu-checkbox {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Aligne les éléments au début (à gauche) */
+  justify-content: flex-start; 
   margin-top: 5px; 
   margin-bottom: 15px; 
   flex-wrap: wrap; 
@@ -256,7 +253,7 @@ body {
   text-decoration: underline;
 }
 
-/* Styles pour les Conditions Générales d'Utilisation */
+/* Styles pour les Conditions Générales d'Utilisation et autres pages (ForgotPassword, ResetPassword) */
 .conditions-container {
   background-color: var(--white);
   padding: 40px;
@@ -292,7 +289,7 @@ body {
   margin-bottom: 8px;
 }
 
-/* Bouton retour des conditions générales */
+/* Bouton retour des conditions générales (utilisé aussi sur ForgotPassword/ResetPassword) */
 .conditions-container .back-button {
   background-color: #6c757d; 
   box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
@@ -388,5 +385,269 @@ body {
   .logout-button {
     font-size: 1em;
     padding: 10px 20px;
+  }
+}
+
+/* NOUVEAUX STYLES POUR HomeUser (Posts) */
+
+.home-user-container {
+    max-width: 800px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--light-gray); /* Fond clair pour la page */
+    border-radius: var(--border-radius-base);
+}
+
+.home-user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+}
+
+.home-user-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 2em;
+}
+
+.user-details {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.user-details h3 {
+    color: var(--dark-gray);
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    border-bottom: 1px solid var(--medium-gray);
+    padding-bottom: 10px;
+}
+
+.user-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user-details li {
+    margin-bottom: 8px;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+.post-creation-card {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+    margin-bottom: 30px;
+}
+
+.post-creation-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.post-form textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius-small);
+    font-size: 1em;
+    min-height: 80px;
+    resize: vertical; /* Permet de redimensionner verticalement */
+}
+
+.file-input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-input-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: var(--transition-fast);
+    box-shadow: var(--shadow-light);
+}
+
+.file-input-label:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.file-input-label span {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+.file-preview {
+    position: relative;
+    margin-top: 15px;
+    border: 1px dashed var(--medium-gray);
+    border-radius: var(--border-radius-small);
+    padding: 10px;
+    text-align: center;
+}
+
+.file-preview img,
+.file-preview video {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: var(--border-radius-small);
+    display: block; /* Évite l'espace sous l'image/vidéo */
+    margin: 0 auto; /* Centre l'image/vidéo */
+}
+
+.clear-file-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: var(--error-color);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: bold;
+    transition: var(--transition-fast);
+}
+
+.clear-file-button:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+}
+
+.post-form button[type="submit"] {
+    background-color: var(--success-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: var(--transition-medium);
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+}
+
+.post-form button[type="submit"]:hover:not(:disabled) {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+}
+
+.post-form button[type="submit"]:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+/* Styles pour le fil d'actualité des publications */
+.posts-feed {
+    margin-top: 30px;
+}
+
+.posts-feed h3 {
+    color: var(--dark-gray);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.post-card {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-light);
+    margin-bottom: 20px;
+}
+
+.post-card:last-child {
+    margin-bottom: 0;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--light-gray);
+    padding-bottom: 10px;
+}
+
+.post-author {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.1em;
+}
+
+.post-date {
+    font-size: 0.85em;
+    color: var(--dark-gray);
+}
+
+.post-content {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    white-space: pre-wrap; /* Préserve les retours à la ligne du textarea */
+}
+
+.post-media-image,
+.post-media-video {
+    max-width: 100%;
+    border-radius: var(--border-radius-small);
+    height: auto; /* Maintient le ratio d'aspect */
+    display: block; /* Évite l'espace sous l'image/vidéo */
+    margin-top: 10px;
+}
+
+/* Media Queries pour la réactivité */
+@media (max-width: 600px) {
+  .home-user-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .home-user-header h2 {
+    margin-bottom: 15px;
+    font-size: 1.8em;
+  }
+  .post-creation-card, .user-details, .post-card {
+    padding: 15px;
+  }
+  .post-form textarea {
+    padding: 10px;
   }
 }
